@@ -1,0 +1,51 @@
+[gd_scene format=3 uid="uid://dxlndct30hiic"]
+
+[ext_resource type="Script" uid="uid://dykuiuhg5sss2" path="res://Scripts/Objects/Bullet.cs" id="1_ffd4u"]
+[ext_resource type="Script" uid="uid://otbbl3l16730" path="res://Scripts/Components/ExplosionComponent.cs" id="2_7hhu3"]
+[ext_resource type="Script" uid="uid://ca6ppjeu2qt6y" path="res://Scripts/Components/MoveComponent.cs" id="3_fj1up"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xc7i7"]
+albedo_color = Color(0, 1, 0, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_tgsnh"]
+material = SubResource("StandardMaterial3D_xc7i7")
+radius = 0.35
+height = 0.7
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_tgsnh"]
+radius = 0.3
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_t3xun"]
+transparency = 1
+albedo_color = Color(0, 1, 0, 0.34901962)
+
+[sub_resource type="SphereMesh" id="SphereMesh_xc7i7"]
+material = SubResource("StandardMaterial3D_t3xun")
+
+[node name="ExplosionBullet" type="CharacterBody3D" unique_id=219265171 groups=["PlayerBullet"]]
+collision_layer = 0
+collision_mask = 0
+script = ExtResource("1_ffd4u")
+
+[node name="BulletMesh" type="MeshInstance3D" parent="." unique_id=1566873894]
+mesh = SubResource("SphereMesh_tgsnh")
+
+[node name="ExplosionComponent" type="Area3D" parent="." unique_id=1426227995]
+collision_layer = 0
+collision_mask = 17
+script = ExtResource("2_7hhu3")
+Damage = 20.0
+TargetGroups = PackedStringArray("Enemy")
+metadata/_custom_type_script = "uid://otbbl3l16730"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ExplosionComponent" unique_id=991095849]
+shape = SubResource("SphereShape3D_tgsnh")
+
+[node name="ExplosionVisual" type="MeshInstance3D" parent="ExplosionComponent" unique_id=995933650]
+mesh = SubResource("SphereMesh_xc7i7")
+
+[node name="MoveComponent" type="Node" parent="." unique_id=1992367655]
+script = ExtResource("3_fj1up")
+Speed = 14.0
+MoveForward = true
+metadata/_custom_type_script = "uid://ca6ppjeu2qt6y"

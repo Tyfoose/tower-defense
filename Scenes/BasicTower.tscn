@@ -1,0 +1,68 @@
+[gd_scene format=3 uid="uid://cxdmstyyc4s6i"]
+
+[ext_resource type="Script" uid="uid://b4myfwqfajlxm" path="res://Scripts/Objects/Tower.cs" id="1_8sdrh"]
+[ext_resource type="Script" uid="uid://dijh8cv6s6qbp" path="res://Scripts/Components/HealthComponent.cs" id="2_1l22i"]
+[ext_resource type="Script" uid="uid://dbg1uiwpx8deu" path="res://Scripts/Components/ShootComponent.cs" id="3_jqfiu"]
+[ext_resource type="PackedScene" uid="uid://c2qwf7j78u4vc" path="res://Scenes/PlayerBullet.tscn" id="4_6thtr"]
+[ext_resource type="Script" uid="uid://d3ixxtpamd4j5" path="res://Scripts/Components/VisibilityComponent.cs" id="5_rupls"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xc7i7"]
+albedo_color = Color(0.2, 0.8, 0.2, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_tgsnh"]
+material = SubResource("StandardMaterial3D_xc7i7")
+top_radius = 0.6
+bottom_radius = 0.6
+height = 1.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_t3xun"]
+albedo_color = Color(0.2, 0.8, 0.2, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_tgsnh"]
+material = SubResource("StandardMaterial3D_t3xun")
+size = Vector3(0.25, 0.25, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_tgsnh"]
+size = Vector3(1.2, 1, 1.2)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_tgsnh"]
+radius = 12.0
+
+[node name="BasicTower" type="StaticBody3D" unique_id=707925630]
+collision_layer = 4
+collision_mask = 0
+script = ExtResource("1_8sdrh")
+
+[node name="BodyMesh" type="MeshInstance3D" parent="." unique_id=1401359431]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+mesh = SubResource("CylinderMesh_tgsnh")
+
+[node name="BarrelMesh" type="MeshInstance3D" parent="." unique_id=2070605105]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, -0.7)
+mesh = SubResource("BoxMesh_tgsnh")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1770138894]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("BoxShape3D_tgsnh")
+
+[node name="HealthComponent" type="Node" parent="." unique_id=1054663294]
+script = ExtResource("2_1l22i")
+MaxHealth = 80.0
+MetalReward = 10
+metadata/_custom_type_script = "uid://dijh8cv6s6qbp"
+
+[node name="ShootComponent" type="Node" parent="." unique_id=2013626557]
+script = ExtResource("3_jqfiu")
+BulletScene = ExtResource("4_6thtr")
+ShotsPerSecond = 1.5
+metadata/_custom_type_script = "uid://dbg1uiwpx8deu"
+
+[node name="VisibilityComponent" type="Area3D" parent="." unique_id=1279539711]
+collision_layer = 0
+collision_mask = 16
+script = ExtResource("5_rupls")
+TargetGroups = PackedStringArray("Enemy")
+metadata/_custom_type_script = "uid://d3ixxtpamd4j5"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="VisibilityComponent" unique_id=1917410021]
+shape = SubResource("SphereShape3D_tgsnh")

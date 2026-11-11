@@ -1,0 +1,40 @@
+[gd_scene format=3 uid="uid://do0vc4edp5m1h"]
+
+[ext_resource type="Script" uid="uid://dijh8cv6s6qbp" path="res://Scripts/Components/HealthComponent.cs" id="1_bow1k"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xc7i7"]
+albedo_color = Color(0.2, 0.4, 1, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_tgsnh"]
+material = SubResource("StandardMaterial3D_xc7i7")
+top_radius = 1.5
+bottom_radius = 1.5
+height = 1.0
+
+[sub_resource type="SphereMesh" id="SphereMesh_bow1k"]
+radius = 0.7
+height = 1.4
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_tgsnh"]
+radius = 1.5
+
+[node name="Core" type="StaticBody3D" unique_id=1245189442 groups=["Core"]]
+collision_layer = 8
+collision_mask = 0
+
+[node name="BaseMesh" type="MeshInstance3D" parent="." unique_id=1038084597]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+mesh = SubResource("CylinderMesh_tgsnh")
+
+[node name="TopMesh" type="MeshInstance3D" parent="." unique_id=1028653867]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+mesh = SubResource("SphereMesh_bow1k")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1908742063]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CylinderShape3D_tgsnh")
+
+[node name="HealthComponent" type="Node" parent="." unique_id=940858352]
+script = ExtResource("1_bow1k")
+MaxHealth = 300.0
+metadata/_custom_type_script = "uid://dijh8cv6s6qbp"

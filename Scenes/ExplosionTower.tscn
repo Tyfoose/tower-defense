@@ -1,0 +1,68 @@
+[gd_scene format=3 uid="uid://cm4837b0jw1ui"]
+
+[ext_resource type="Script" uid="uid://b4myfwqfajlxm" path="res://Scripts/Objects/Tower.cs" id="1_jwcfq"]
+[ext_resource type="Script" uid="uid://dijh8cv6s6qbp" path="res://Scripts/Components/HealthComponent.cs" id="2_gjedu"]
+[ext_resource type="Script" uid="uid://dbg1uiwpx8deu" path="res://Scripts/Components/ShootComponent.cs" id="3_eb407"]
+[ext_resource type="PackedScene" uid="uid://dxlndct30hiic" path="res://Scenes/ExplosionBullet.tscn" id="4_qbu38"]
+[ext_resource type="Script" uid="uid://d3ixxtpamd4j5" path="res://Scripts/Components/VisibilityComponent.cs" id="5_a7602"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xc7i7"]
+albedo_color = Color(0.11764706, 0.47843137, 0.11764706, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_tgsnh"]
+material = SubResource("StandardMaterial3D_xc7i7")
+size = Vector3(1.4, 1, 1.4)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_t3xun"]
+albedo_color = Color(0.11764706, 0.47843137, 0.11764706, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_xc7i7"]
+material = SubResource("StandardMaterial3D_t3xun")
+size = Vector3(0.5, 0.5, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_tgsnh"]
+size = Vector3(1.4, 1, 1.4)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_tgsnh"]
+radius = 12.0
+
+[node name="ExplosionTower" type="StaticBody3D" unique_id=1767680113 groups=["Tower"]]
+collision_layer = 4
+collision_mask = 0
+script = ExtResource("1_jwcfq")
+TowerName = "Взрывная башня"
+Cost = 100
+
+[node name="BodyMesh" type="MeshInstance3D" parent="." unique_id=1487127972]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+mesh = SubResource("BoxMesh_tgsnh")
+
+[node name="BarrelMesh" type="MeshInstance3D" parent="." unique_id=1855606035]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, -0.8)
+mesh = SubResource("BoxMesh_xc7i7")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=626419948]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("BoxShape3D_tgsnh")
+
+[node name="HealthComponent" type="Node" parent="." unique_id=221085946]
+script = ExtResource("2_gjedu")
+MetalReward = 10
+metadata/_custom_type_script = "uid://dijh8cv6s6qbp"
+
+[node name="ShootComponent" type="Node" parent="." unique_id=1393507025]
+script = ExtResource("3_eb407")
+BulletScene = ExtResource("4_qbu38")
+ShotsPerSecond = 0.6
+MuzzleDistance = 1.4
+metadata/_custom_type_script = "uid://dbg1uiwpx8deu"
+
+[node name="VisibilityComponent" type="Area3D" parent="." unique_id=915857355]
+collision_layer = 0
+collision_mask = 16
+script = ExtResource("5_a7602")
+TargetGroups = PackedStringArray("Enemy")
+metadata/_custom_type_script = "uid://d3ixxtpamd4j5"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="VisibilityComponent" unique_id=1374568695]
+shape = SubResource("SphereShape3D_tgsnh")

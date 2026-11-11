@@ -1,0 +1,55 @@
+[gd_scene format=3 uid="uid://bg7dmig5y3yf5"]
+
+[ext_resource type="Script" uid="uid://smuom74guo8w" path="res://Scripts/Objects/Crawler.cs" id="1_2mk3p"]
+[ext_resource type="Script" uid="uid://dijh8cv6s6qbp" path="res://Scripts/Components/HealthComponent.cs" id="2_3onbj"]
+[ext_resource type="Script" uid="uid://ca6ppjeu2qt6y" path="res://Scripts/Components/MoveComponent.cs" id="3_yeytu"]
+[ext_resource type="Script" uid="uid://chqokc4d3lcnk" path="res://Scripts/Components/DamagingComponent.cs" id="4_7725j"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xc7i7"]
+albedo_color = Color(0.6, 0, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_tgsnh"]
+material = SubResource("StandardMaterial3D_xc7i7")
+size = Vector3(1, 0.6, 1.2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_tgsnh"]
+size = Vector3(1, 0.6, 1.2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_xc7i7"]
+size = Vector3(1.4, 0.8, 1.6)
+
+[node name="Crawler" type="CharacterBody3D" unique_id=2000307655 groups=["Enemy"]]
+collision_layer = 16
+collision_mask = 15
+script = ExtResource("1_2mk3p")
+
+[node name="BodyMesh" type="MeshInstance3D" parent="." unique_id=1265408800]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0)
+mesh = SubResource("BoxMesh_tgsnh")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=589921732]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0)
+shape = SubResource("BoxShape3D_tgsnh")
+
+[node name="HealthComponent" type="Node" parent="." unique_id=704960759]
+script = ExtResource("2_3onbj")
+MaxHealth = 25.0
+MetalReward = 5
+metadata/_custom_type_script = "uid://dijh8cv6s6qbp"
+
+[node name="MoveComponent" type="Node" parent="." unique_id=2090700271]
+script = ExtResource("3_yeytu")
+Speed = 3.5
+metadata/_custom_type_script = "uid://ca6ppjeu2qt6y"
+
+[node name="DamagingComponent" type="Area3D" parent="." unique_id=904898046]
+collision_layer = 0
+collision_mask = 14
+script = ExtResource("4_7725j")
+Damage = 20.0
+TargetGroups = PackedStringArray("Player", "Tower", "Core")
+metadata/_custom_type_script = "uid://chqokc4d3lcnk"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="DamagingComponent" unique_id=1274813058]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
+shape = SubResource("BoxShape3D_xc7i7")

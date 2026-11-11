@@ -1,0 +1,42 @@
+[gd_scene format=3 uid="uid://c8tli1w6jo4pg"]
+
+[ext_resource type="Script" uid="uid://dykuiuhg5sss2" path="res://Scripts/Objects/Bullet.cs" id="1_6db4l"]
+[ext_resource type="Script" uid="uid://cc1pkq6d5hv7b" path="res://Scripts/Components/FreezeComponent.cs" id="2_wt4up"]
+[ext_resource type="Script" uid="uid://ca6ppjeu2qt6y" path="res://Scripts/Components/MoveComponent.cs" id="3_b1m2o"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7hhu3"]
+albedo_color = Color(0.6, 1, 0.8, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_ffd4u"]
+material = SubResource("StandardMaterial3D_7hhu3")
+radius = 0.3
+height = 0.6
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_tgsnh"]
+radius = 0.3
+
+[node name="FreezeBullet" type="CharacterBody3D" unique_id=1593961640 groups=["PlayerBullet"]]
+collision_layer = 0
+collision_mask = 0
+script = ExtResource("1_6db4l")
+
+[node name="BulletMesh" type="MeshInstance3D" parent="." unique_id=1980954970]
+mesh = SubResource("SphereMesh_ffd4u")
+
+[node name="FreezeComponent" type="Area3D" parent="." unique_id=1074534523]
+collision_layer = 0
+collision_mask = 17
+script = ExtResource("2_wt4up")
+Damage = 5.0
+TargetGroups = PackedStringArray("Enemy")
+DestroyOnWorldHit = true
+metadata/_custom_type_script = "uid://cc1pkq6d5hv7b"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="FreezeComponent" unique_id=356544186]
+shape = SubResource("SphereShape3D_tgsnh")
+
+[node name="MoveComponent" type="Node" parent="." unique_id=1277718231]
+script = ExtResource("3_b1m2o")
+Speed = 16.0
+MoveForward = true
+metadata/_custom_type_script = "uid://ca6ppjeu2qt6y"

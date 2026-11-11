@@ -1,0 +1,63 @@
+[gd_scene format=3 uid="uid://b1iwh0rd6u3i4"]
+
+[ext_resource type="Script" uid="uid://0igjmctgc332" path="res://Scripts/Objects/Player.cs" id="1_megsn"]
+[ext_resource type="Script" uid="uid://dijh8cv6s6qbp" path="res://Scripts/Components/HealthComponent.cs" id="2_yoq75"]
+[ext_resource type="Script" uid="uid://ca6ppjeu2qt6y" path="res://Scripts/Components/MoveComponent.cs" id="3_ksbbd"]
+[ext_resource type="Script" uid="uid://dbg1uiwpx8deu" path="res://Scripts/Components/ShootComponent.cs" id="4_glx4g"]
+[ext_resource type="PackedScene" uid="uid://c2qwf7j78u4vc" path="res://Scenes/PlayerBullet.tscn" id="5_miouo"]
+[ext_resource type="Script" uid="uid://6ptq6p03kerx" path="res://Scripts/Components/TowerPlacer.cs" id="6_o3h8g"]
+[ext_resource type="PackedScene" uid="uid://cxdmstyyc4s6i" path="res://Scenes/BasicTower.tscn" id="7_1e7my"]
+[ext_resource type="PackedScene" uid="uid://cm4837b0jw1ui" path="res://Scenes/ExplosionTower.tscn" id="8_arntx"]
+[ext_resource type="PackedScene" uid="uid://dcxs3cbqqjs5k" path="res://Scenes/FreezeTower.tscn" id="9_lslt6"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xc7i7"]
+albedo_color = Color(0.2, 0.8, 0.2, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_tgsnh"]
+material = SubResource("StandardMaterial3D_xc7i7")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_t3xun"]
+albedo_color = Color(0.2, 0.8, 0.2, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_tgsnh"]
+material = SubResource("StandardMaterial3D_t3xun")
+size = Vector3(0.2, 0.2, 0.8)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_tgsnh"]
+
+[node name="Player" type="CharacterBody3D" unique_id=599392739 groups=["Player"]]
+collision_layer = 2
+collision_mask = 13
+script = ExtResource("1_megsn")
+
+[node name="BodyMesh" type="MeshInstance3D" parent="." unique_id=1274852728]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+mesh = SubResource("SphereMesh_tgsnh")
+
+[node name="BarrelMesh" type="MeshInstance3D" parent="." unique_id=1234686098]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.6)
+mesh = SubResource("BoxMesh_tgsnh")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=151683055]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("SphereShape3D_tgsnh")
+
+[node name="HealthComponent" type="Node" parent="." unique_id=37014266]
+script = ExtResource("2_yoq75")
+metadata/_custom_type_script = "uid://dijh8cv6s6qbp"
+
+[node name="MoveComponent" type="Node" parent="." unique_id=1945219857]
+script = ExtResource("3_ksbbd")
+Speed = 6.0
+metadata/_custom_type_script = "uid://ca6ppjeu2qt6y"
+
+[node name="ShootComponent" type="Node" parent="." unique_id=211386564]
+script = ExtResource("4_glx4g")
+BulletScene = ExtResource("5_miouo")
+ShotsPerSecond = 4.0
+metadata/_custom_type_script = "uid://dbg1uiwpx8deu"
+
+[node name="TowerPlacer" type="Node" parent="." unique_id=282362997]
+script = ExtResource("6_o3h8g")
+TowerScenes = Array[PackedScene]([ExtResource("7_1e7my"), ExtResource("8_arntx"), ExtResource("9_lslt6")])
+metadata/_custom_type_script = "uid://6ptq6p03kerx"

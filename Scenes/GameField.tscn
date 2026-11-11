@@ -1,0 +1,140 @@
+[gd_scene format=3 uid="uid://m768se22r3b0"]
+
+[ext_resource type="Script" uid="uid://rphi42mr6e03" path="res://Scripts/Objects/GameManager.cs" id="1_li2ma"]
+[ext_resource type="PackedScene" uid="uid://do0vc4edp5m1h" path="res://Scenes/Core.tscn" id="2_gc6b0"]
+[ext_resource type="PackedScene" uid="uid://b1iwh0rd6u3i4" path="res://Scenes/Player.tscn" id="3_h6fut"]
+[ext_resource type="PackedScene" uid="uid://cxdmstyyc4s6i" path="res://Scenes/BasicTower.tscn" id="4_4pxnd"]
+[ext_resource type="Script" uid="uid://dkamul6yaujh4" path="res://Scripts/Objects/EnemySpawner.cs" id="5_dyxei"]
+[ext_resource type="PackedScene" uid="uid://bg7dmig5y3yf5" path="res://Scenes/Crawler.tscn" id="6_0a48y"]
+[ext_resource type="PackedScene" uid="uid://cgp7hi2qoyeey" path="res://Scenes/EnemyTurret.tscn" id="7_ca3xt"]
+[ext_resource type="Script" uid="uid://eqtohgpggv6h" path="res://Scripts/Objects/Hud.cs" id="8_cqqab"]
+
+[sub_resource type="Environment" id="Environment_tgsnh"]
+background_mode = 1
+background_color = Color(0.1254902, 0.1254902, 0.1882353, 1)
+ambient_light_source = 2
+ambient_light_color = Color(1, 1, 1, 1)
+ambient_light_energy = 4.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xc7i7"]
+albedo_color = Color(0.2509804, 0.2509804, 0.2509804, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_tgsnh"]
+material = SubResource("StandardMaterial3D_xc7i7")
+size = Vector2(30, 30)
+
+[sub_resource type="BoxMesh" id="BoxMesh_tgsnh"]
+size = Vector3(32, 3, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_tgsnh"]
+size = Vector3(32, 3, 1)
+
+[node name="GameField" type="Node3D" unique_id=493693289]
+script = ExtResource("1_li2ma")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=373008585]
+environment = SubResource("Environment_tgsnh")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=884832330]
+transform = Transform3D(0.8660254, -0.43301272, 0.24999999, 0, 0.49999997, 0.86602545, -0.5, -0.75, 0.43301266, 0, 0, 0)
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=743820504]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 22, 0)
+current = true
+
+[node name="Floor" type="MeshInstance3D" parent="." unique_id=319718750]
+mesh = SubResource("PlaneMesh_tgsnh")
+
+[node name="Walls" type="Node3D" parent="." unique_id=74728158]
+
+[node name="WallNorth" type="StaticBody3D" parent="Walls" unique_id=551124865]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -15.5)
+collision_mask = 0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Walls/WallNorth" unique_id=1548597110]
+mesh = SubResource("BoxMesh_tgsnh")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallNorth" unique_id=1949982843]
+shape = SubResource("BoxShape3D_tgsnh")
+
+[node name="WallSouth" type="StaticBody3D" parent="Walls" unique_id=502109558]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 15.5)
+collision_mask = 0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Walls/WallSouth" unique_id=1070158983]
+mesh = SubResource("BoxMesh_tgsnh")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallSouth" unique_id=1865801721]
+shape = SubResource("BoxShape3D_tgsnh")
+
+[node name="WallEast" type="StaticBody3D" parent="Walls" unique_id=652806811]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 15.5, 1.5, 0)
+collision_mask = 0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Walls/WallEast" unique_id=110786351]
+mesh = SubResource("BoxMesh_tgsnh")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallEast" unique_id=319008973]
+shape = SubResource("BoxShape3D_tgsnh")
+
+[node name="WallWest" type="StaticBody3D" parent="Walls" unique_id=641294271]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -15.5, 1.5, 0)
+collision_mask = 0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Walls/WallWest" unique_id=1864831842]
+mesh = SubResource("BoxMesh_tgsnh")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallWest" unique_id=47072758]
+shape = SubResource("BoxShape3D_tgsnh")
+
+[node name="Core" parent="Walls" unique_id=1245189442 instance=ExtResource("2_gc6b0")]
+
+[node name="Player" parent="Walls" unique_id=599392739 instance=ExtResource("3_h6fut")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 6)
+
+[node name="BasicTower" parent="Walls" unique_id=707925630 instance=ExtResource("4_4pxnd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 0)
+
+[node name="EnemySpawner" type="Node3D" parent="." unique_id=489039683]
+script = ExtResource("5_dyxei")
+EnemyScenes = Array[PackedScene]([ExtResource("6_0a48y"), ExtResource("6_0a48y"), ExtResource("7_ca3xt")])
+
+[node name="HUD" type="CanvasLayer" parent="." unique_id=1958559405]
+script = ExtResource("8_cqqab")
+
+[node name="MetalLabel" type="Label" parent="HUD" unique_id=1223667601]
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 99.0
+offset_bottom = 43.0
+text = "Металл: 0"
+
+[node name="HealthLabel" type="Label" parent="HUD" unique_id=1644806333]
+offset_left = 20.0
+offset_top = 50.0
+offset_right = 60.0
+offset_bottom = 73.0
+
+[node name="BuildLabel" type="Label" parent="HUD" unique_id=288304851]
+offset_left = 20.0
+offset_top = 80.0
+offset_right = 60.0
+offset_bottom = 103.0
+theme_override_colors/font_color = Color(0, 0, 1, 1)
+
+[node name="MessageLabel" type="Label" parent="HUD" unique_id=546499498]
+offset_left = 20.0
+offset_top = 110.0
+offset_right = 60.0
+offset_bottom = 133.0
+
+[node name="GameOverLabel" type="Label" parent="HUD" unique_id=1958772065]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 36
+text = "ИГРА ОКОНЧЕНА"
+horizontal_alignment = 1
+vertical_alignment = 1
